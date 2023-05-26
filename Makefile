@@ -54,3 +54,42 @@ execphp:
 
 execdb:
 	docker-compose exec symfony-example-mysql bash
+
+copy_vendor:
+	rm -r ./vendor
+	docker-compose cp symfony-example-php:/app/vendor/ ./vendor
+
+run_tests:
+	docker-compose exec -T symfony-example-php-test vendor/bin/phpunit
+
+run_phpstan:
+	docker-compose exec -T symfony-example-php vendor/bin/phpstan analyse
+
+run_ecs:
+	docker-compose exec -T symfony-example-php vendor/bin/ecs check src/ --fix
+
+build_test_local:
+	docker-compose -f docker-compose-test-local.yaml build
+
+start_test_local:
+ifeq ($(OS),Darwin)
+	docker volume create --name=symfony-example-api-app-sync
+	docker-compose -f docker-compose-test-local.yaml up -d
+	docker-sync start -f
+else
+	docker-compose -f docker-compose-test.yaml up -d
+endif
+
+stop_test_local:
+ifeq ($(OS),Darwin)
+	docker-compose -f docker-compose-test-local.yaml down
+	docker-sync stop
+else
+	docker-compose -f docker-compose-test-local.yaml down
+endif
+
+install_test:
+	sh ./install-test.sh
+
+execphp_test:
+	docker-compose exec symfony-example-php-test bash

@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  symfony-example-db-test:
+    container_name: symfony-example-db-test
+    image: mariadb:10.5.8
+    ports:
+      - '33067:3306'
+    command: --sql_mode=""
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+      - symfony-example_db_data-test:/var/lib/mysql
+
+  symfony-example-php-test:
+    container_name: symfony-example-php-test
+    restart: always
+    build: docker/php-fpm
+    ports:
+      - '2227:22'
+    working_dir: /app
+    environment:
+      APP_ENV: test
+      JWT_PASSPHRASE: 1234
+    volumes:
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
+      - .:/app:cached
+    depends_on:
+      - symfony-example-db-test
+
+  symfony-example-nginx-test:
+    container_name: symfony-example-nginx-test
+    restart: always
+    image: nginx:latest
+    ports:
+      - '9097:80'
+    volumes:
+      - ./docker/nginx/nginx-test.conf:/etc/nginx/conf.d/default.conf
+      - .:/app:cached
+    depends_on:
+      - symfony-example-php-test
+
+volumes:
+  symfony-example_db_data-test:

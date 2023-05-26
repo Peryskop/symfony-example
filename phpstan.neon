@@ -1,0 +1,8 @@
+parameters:
+    level: 7
+    paths:
+        - src
+    treatPhpDocTypesAsCertain: false
+    checkGenericClassInNonGenericObjectType: false
+    doctrine:
+            objectManagerLoader: tests/object-manager.php
