@@ -1,0 +1,9 @@
+version: "2"
+options:
+  verbose: true
+  max_attempt: 30
+syncs:
+  symfony-example-api-app-sync:
+    src: './'
+    sync_strategy: 'unison'
+    sync_excludes: [ "var/cache", "var/logs", "var/sessions", "vendor", ".idea", ".git" ]

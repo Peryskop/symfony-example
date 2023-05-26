@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  symfony-example-db:
+    container_name: symfony-example-db-dev
+    ports:
+      - '33063:3306'
+
+  symfony-example-php:
+    container_name: symfony-example-php-dev
+    environment:
+      APP_ENV: dev
+      APP_VERSION: dev
+      DATABASE_URL: mysql://root:@symfony-example-db:3306/symfony-example_dev
+
+  symfony-example-nginx:
+    container_name: symfony-example-nginx-dev
+    ports:
+      - '8083:80'

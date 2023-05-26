@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  symfony-example-db:
+    container_name: symfony-example-db-dev-local
+    ports:
+      - '33060:3306'
+
+  symfony-example-php:
+    container_name: symfony-example-php-dev-local
+    ports:
+      - '2222:22'
+    volumes:
+      - symfony-example-api-app-sync:/app
+    environment:
+      APP_ENV: dev
+      APP_VERSION: dev
+      DATABASE_URL: mysql://root:@symfony-example-db:3306/symfony-example
+
+  symfony-example-nginx:
+    container_name: symfony-example-nginx-dev-local
+    ports:
+      - '9090:80'
+    volumes:
+      - symfony-example-api-app-sync:/app
+
+volumes:
+  symfony-example-api-app-sync:
+    external: true
