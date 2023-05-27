@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
+    <class name="App\DTO\Post\PostDTO">
+        <property name="description">
+            <constraint name="NotBlank">
+                <option name="message">Description cannot be empty</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+            <constraint name="Length">
+                <option name="maxMessage">Description cannot be longer than 2200 characters</option>
+                <option name="max">2200</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>
