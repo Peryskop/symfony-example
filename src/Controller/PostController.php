@@ -76,7 +76,8 @@ final class PostController extends AbstractApiController
 
         return $this->respond(
             $dto,
-            ['post:read']
+            ['post:read'],
+            Response::HTTP_CREATED
         );
     }
 

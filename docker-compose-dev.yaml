@@ -8,10 +8,12 @@ services:
 
   symfony-example-php:
     container_name: symfony-example-php-dev
+    ports:
+      - '2222:22'
     environment:
       APP_ENV: dev
       APP_VERSION: dev
-      DATABASE_URL: mysql://root:@symfony-example-db:3306/symfony-example_dev
+      DATABASE_URL: mysql://root:@symfony-example-db:3306/symfony-example_dev?serverVersion=mariadb-10.6.10
 
   symfony-example-nginx:
     container_name: symfony-example-nginx-dev

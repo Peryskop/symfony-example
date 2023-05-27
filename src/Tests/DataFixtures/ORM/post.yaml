@@ -1,0 +1,5 @@
+App\Entity\Post:
+  post1:
+    description: test description 1
+  post2:
+    description: test description 2

@@ -8,7 +8,7 @@ COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T symfony-example-php composer s
 COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T symfony-example-php composer update --no-interaction --classmap-authoritative --optimize-autoloader
 
 docker-compose exec -T symfony-example-php php bin/console doctrine:database:create --if-not-exists
-#docker-compose exec -T symfony-example-php php bin/console doctrine:migrations:migrate --no-interaction
+docker-compose exec -T symfony-example-php php bin/console doctrine:migrations:migrate --no-interaction
 
 #JWT
 #rm ./config/jwt/*

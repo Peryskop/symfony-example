@@ -15,7 +15,7 @@ services:
     environment:
       APP_ENV: dev
       APP_VERSION: dev
-      DATABASE_URL: mysql://root:@symfony-example-db:3306/symfony-example
+      DATABASE_URL: mysql://root:@symfony-example-db:3306/symfony-example?serverVersion=mariadb-10.6.10
 
   symfony-example-nginx:
     container_name: symfony-example-nginx-dev-local

@@ -22,7 +22,7 @@ services:
     environment:
       APP_ENV: test
       APP_VERSION: test
-      DATABASE_URL: mysql://root:@symfony-example-db-test:3306/symfony-example-test?serverVersion=mariadb-10.5.8
+      DATABASE_URL: mysql://root:@symfony-example-db-test:3306/symfony-example-test?serverVersion=mariadb-10.6.10
     volumes:
       - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
       - .:/app:cached

@@ -21,7 +21,8 @@ services:
     working_dir: /app
     environment:
       APP_ENV: test
-      JWT_PASSPHRASE: 1234
+      APP_VERSION: test
+      DATABASE_URL: mysql://root:@symfony-example-db-test:3306/symfony-example-test?serverVersion=mariadb-10.6.10
     volumes:
       - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
       - .:/app:cached

@@ -1,0 +1,6 @@
+{
+  "id": "@integer@",
+  "description": "Lorem ipsum",
+  "createdAt": "@string@",
+  "updatedAt": "@string@"
+}
