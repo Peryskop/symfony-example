@@ -13,7 +13,6 @@
         "jms/serializer": "^3.23",
         "jms/serializer-bundle": "*",
         "pagerfanta/pagerfanta": "^4.1",
-        "sensio/framework-extra-bundle": "*",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^1.17|^2",

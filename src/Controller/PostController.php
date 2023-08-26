@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Attribute\MapToDTO;
 use App\DTO\Post\PostDTO;
 use App\DTO\Transformer\PostResponseDTOTransformer;
 use App\Entity\Post;
@@ -64,7 +65,7 @@ final class PostController extends AbstractApiController
     }
 
     #[Route('posts', name: 'create', methods: ['POST'])]
-    public function create(PostDTO $postDTO): Response
+    public function create(#[MapToDTO] PostDTO $postDTO): Response
     {
         $this->multiFieldValidator->validate($postDTO, ['default']);
 
@@ -82,7 +83,7 @@ final class PostController extends AbstractApiController
     }
 
     #[Route('posts/{id}', name: 'update', methods: ['PUT'])]
-    public function update(PostDTO $postDTO, Post $post): Response
+    public function update(#[MapToDTO] PostDTO $postDTO, Post $post): Response
     {
         $this->multiFieldValidator->validate($postDTO, ['default']);
 

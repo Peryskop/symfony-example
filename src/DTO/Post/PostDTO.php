@@ -6,10 +6,10 @@ namespace App\DTO\Post;
 
 final readonly class PostDTO
 {
-    /** @param mixed[]|null $postData */
-    public function __construct(?array $postData)
+    /** @param mixed[]|null $data */
+    public function __construct(?array $data = [])
     {
-        $this->description = $postData['description'] ?? null;
+        $this->description = $data['description'] ?? null;
     }
 
     public ?string $description;
