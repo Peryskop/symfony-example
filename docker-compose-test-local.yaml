@@ -3,6 +3,10 @@ version: '3.7'
 services:
   symfony-example-db-test:
     container_name: symfony-example-db-test-local
+    image: mariadb:10.6.10
+    command: --sql_mode=""
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     ports:
       - '33067:3306'
     volumes:
