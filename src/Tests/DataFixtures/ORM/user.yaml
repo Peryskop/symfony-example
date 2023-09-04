@@ -1,0 +1,9 @@
+parameters:
+    hash: $2y$04$7mH0S7Fc.Gl9CgXompo1Cu2SUC0v9DjkhzBoGoGF8qMi2Uuz1zjjS #zaq1@WSX
+
+App\Entity\User:
+    user1:
+        email: existing.user@email.com
+        password: <{hash}>
+        firstName: John
+        lastName: Doe

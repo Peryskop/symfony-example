@@ -1,0 +1,8 @@
+{
+  "email": [
+    "Email cannot be empty"
+  ],
+  "password": [
+    "Password cannot be empty"
+  ]
+}

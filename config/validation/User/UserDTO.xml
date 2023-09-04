@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
+    <class name="App\DTO\User\UserDTO">
+        <property name="email">
+            <constraint name="NotBlank">
+                <option name="message">Email cannot be empty</option>
+                <option name="groups">
+                    <value>registration</value>
+                </option>
+            </constraint>
+            <constraint name="Email">
+                <option name="mode">html5</option>
+                <option name="message">Invalid email</option>
+                <option name="groups">
+                    <value>registration</value>
+                </option>
+            </constraint>
+            <constraint name="App\Validator\EmailInUse">
+                <option name="groups">
+                    <value>email</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="password">
+            <constraint name="Length">
+                <option name="minMessage">Password have to be at least {{ limit }} characters long</option>
+                <option name="min">8</option>
+                <option name="groups">
+                    <value>registration</value>
+                </option>
+            </constraint>
+            <constraint name="NotBlank">
+                <option name="message">Password cannot be empty</option>
+                <option name="groups">
+                    <value>registration</value>
+                </option>
+            </constraint>
+            <constraint name="Regex">
+                <option name="pattern">/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&amp;])[A-Za-z0-9@$!%*?&amp;]*$/</option>
+                <option name="message">Password must contain latin letters only and at least: 1 lower letter, 1 upper letter, 1 special character and 1 number</option>
+                <option name="match">true</option>
+                <option name="groups">
+                    <value>registration</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="firstName">
+            <constraint name="NotBlank">
+                <option name="message">First name cannot be empty</option>
+                <option name="groups">
+                    <value>update</value>
+                </option>
+            </constraint>
+            <constraint name="Length">
+                <option name="maxMessage">First name cannot be longer than {{ limit }} characters</option>
+                <option name="max">250</option>
+                <option name="groups">
+                    <value>update</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="lastName">
+            <constraint name="NotBlank">
+                <option name="message">Last name cannot be empty</option>
+                <option name="groups">
+                    <value>update</value>
+                </option>
+            </constraint>
+            <constraint name="Length">
+                <option name="maxMessage">First name cannot be longer than {{ limit }} characters</option>
+                <option name="max">250</option>
+                <option name="groups">
+                    <value>update</value>
+                </option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

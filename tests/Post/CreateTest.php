@@ -5,10 +5,20 @@ declare(strict_types=1);
 namespace App\Tests\Post;
 
 use ApiTestCase\JsonApiTestCase;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 final class CreateTest extends JsonApiTestCase
 {
+    private object $userRepository;
+
+    protected function setUp(): void
+    {
+        $this->loadFixturesFromFiles(['user.yaml']);
+        $this->userRepository = static::getContainer()->get(UserRepository::class);
+        $this->client->loginUser($this->userRepository->findOneBy(['email' => 'existing.user@email.com']));
+    }
+
     public function testCreatePostSuccess(): void
     {
         $this->client->request(

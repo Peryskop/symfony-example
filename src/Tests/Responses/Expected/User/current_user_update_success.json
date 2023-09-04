@@ -1,0 +1,6 @@
+{
+  "id": "@integer@",
+  "email": "existing.user@email.com",
+  "firstName": "John updated",
+  "lastName": "Doe updated"
+}
