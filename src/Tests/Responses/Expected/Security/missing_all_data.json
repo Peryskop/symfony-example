@@ -4,5 +4,11 @@
   ],
   "password": [
     "Password cannot be empty"
+  ],
+  "firstName": [
+    "First name cannot be empty"
+  ],
+  "lastName": [
+    "Last name cannot be empty"
   ]
 }

@@ -28,7 +28,7 @@ start_dev_local:
 ifeq ($(OS),Darwin)
 	docker volume create --name=symfony-example-api-vendor-sync
 	docker volume create --name=symfony-example-api-app-sync
-	docker-compose -f docker-compose.yaml -f docker-compose-dev.local.yaml up -d --remove-orphans
+	docker-compose -f docker-compose.yaml -f docker-compose-dev.local.yaml up -d --force-recreate
 	docker-sync start -f
 endif
 

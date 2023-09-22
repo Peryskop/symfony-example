@@ -50,6 +50,7 @@
                 <option name="message">First name cannot be empty</option>
                 <option name="groups">
                     <value>update</value>
+                    <value>registration</value>
                 </option>
             </constraint>
             <constraint name="Length">
@@ -57,6 +58,7 @@
                 <option name="max">250</option>
                 <option name="groups">
                     <value>update</value>
+                    <value>registration</value>
                 </option>
             </constraint>
         </property>
@@ -65,6 +67,7 @@
                 <option name="message">Last name cannot be empty</option>
                 <option name="groups">
                     <value>update</value>
+                    <value>registration</value>
                 </option>
             </constraint>
             <constraint name="Length">
@@ -72,6 +75,7 @@
                 <option name="max">250</option>
                 <option name="groups">
                     <value>update</value>
+                    <value>registration</value>
                 </option>
             </constraint>
         </property>
