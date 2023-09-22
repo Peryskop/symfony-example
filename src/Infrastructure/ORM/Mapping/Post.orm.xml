@@ -13,6 +13,10 @@
 
         <field name="updatedAt" type="datetime_immutable"/>
 
+        <many-to-one field="user" target-entity="App\Entity\User">
+            <join-column nullable="false"/>
+        </many-to-one>
+
         <lifecycle-callbacks>
             <lifecycle-callback type="prePersist" method="updateTimestamps"/>
             <lifecycle-callback type="preUpdate" method="updateTimestamps"/>

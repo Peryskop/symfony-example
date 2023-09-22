@@ -14,6 +14,8 @@ class Post
 
     private \DateTimeImmutable $updatedAt;
 
+    private User $user;
+
     public function getId(): int
     {
         return $this->id;
@@ -47,5 +49,15 @@ class Post
         if (! isset($this->createdAt)) {
             $this->createdAt = new \DateTimeImmutable(timezone: $utcTimeZone);
         }
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }

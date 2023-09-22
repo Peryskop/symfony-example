@@ -2,5 +2,11 @@
   "id": "@integer@",
   "description": "Lorem ipsum updated",
   "createdAt": "@string@",
-  "updatedAt": "@string@"
+  "updatedAt": "@string@",
+  "user": {
+    "id": "@integer@",
+    "email": "existing.user@email.com",
+    "firstName": "John",
+    "lastName": "Doe"
+  }
 }

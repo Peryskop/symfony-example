@@ -19,6 +19,7 @@ final class ResponseDTOFactory
         $dto->description = $post->getDescription();
         $dto->createdAt = $post->getCreatedAt()->format('Y-m-d H:i:s');
         $dto->updatedAt = $post->getUpdatedAt()->format('Y-m-d H:i:s');
+        $dto->user = $this->createUserResponseDTOFromUser($post->getUser());
 
         return $dto;
     }

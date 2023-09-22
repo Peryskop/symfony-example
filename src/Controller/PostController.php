@@ -49,7 +49,7 @@ final class PostController extends AbstractApiController
 
         return $this->respond(
             $paginatedResponse,
-            ['post:read']
+            ['post:read', 'user:read']
         );
     }
 
@@ -60,7 +60,7 @@ final class PostController extends AbstractApiController
 
         return $this->respond(
             $dto,
-            ['post:read']
+            ['post:read', 'user:read']
         );
     }
 
@@ -77,7 +77,7 @@ final class PostController extends AbstractApiController
 
         return $this->respond(
             $dto,
-            ['post:read'],
+            ['post:read', 'user:read'],
             Response::HTTP_CREATED
         );
     }
@@ -95,7 +95,7 @@ final class PostController extends AbstractApiController
 
         return $this->respond(
             $dto,
-            ['post:read']
+            ['post:read', 'user:read']
         );
     }
 
