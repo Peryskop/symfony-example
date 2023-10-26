@@ -14,6 +14,14 @@ services:
     _instanceof:
         App\ExceptionHandler\ExceptionHandlerInterface:
             tags: [ 'app.exception_handler' ]
+        App\Factory\DTO\DTOFactoryInterface:
+            tags: [ 'app.dto_factory' ]
+        App\Factory\ResponseDTO\ResponseDTOFactoryInterface:
+            tags: [ 'app.response_dto_factory' ]
+        App\Factory\Entity\EntityFactoryInterface:
+            tags: [ 'app.entity_factory_interface' ]
+        App\Updater\Entity\EntityUpdaterInterface:
+            tags: [ 'app.entity_updater_interface' ]
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -29,3 +37,21 @@ services:
             - { name: kernel.event_listener, event: kernel.exception }
         arguments:
             $iterator: !tagged_iterator app.exception_handler
+    App\Mapper\RequestToDTOMapper:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller_arguments }
+        arguments:
+            $iterator: !tagged_iterator app.dto_factory
+    App\DTO\Transformer\ResponseDTOTransformer:
+        arguments:
+            $iterator: !tagged_iterator app.response_dto_factory
+    App\Factory\Entity\CompositeEntityFactory:
+        arguments:
+            $iterator: !tagged_iterator app.entity_factory_interface
+    App\Updater\Entity\CompositeEntityUpdater:
+        arguments:
+            $iterator: !tagged_iterator app.entity_updater_interface
+
+    App\Factory\ResponseDTO\PostResponseDTOFactory:
+        arguments:
+            $userResponseDTOFactory: '@App\Factory\ResponseDTO\UserResponseDTOFactory'

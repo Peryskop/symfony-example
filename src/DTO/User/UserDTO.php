@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\DTO\User;
 
+use App\DTO\DTOInterface;
 use App\Trimmer\Trimmer;
 
-final readonly class UserDTO
+final readonly class UserDTO implements DTOInterface
 {
     /** @param mixed[]|null $data */
     public function __construct(?array $data = [])

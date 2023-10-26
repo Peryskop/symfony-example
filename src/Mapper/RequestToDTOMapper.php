@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
-use App\DTO\Post\PostDTO;
-use App\DTO\User\UserDTO;
-use App\Factory\DTOFactory;
+use App\Factory\DTO\DTOFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final readonly class RequestToDTOMapper implements EventSubscriberInterface
+final class RequestToDTOMapper implements EventSubscriberInterface
 {
-    public function __construct(
-        private DTOFactory $DTOFactory
-    ) {
+    /** @var DTOFactoryInterface[] */
+    private array $DTOFactories = [];
+
+    /** @param DTOFactoryInterface[] $iterator */
+    public function __construct(iterable $iterator)
+    {
+        foreach ($iterator as $item) {
+            $this->DTOFactories[] = $item;
+        }
     }
 
     public static function getSubscribedEvents(): array
@@ -31,11 +35,14 @@ final readonly class RequestToDTOMapper implements EventSubscriberInterface
         $request = $event->getRequest();
 
         foreach ($arguments as $i => $argument) {
-            $payload = match (true) {
-                $argument instanceof PostDTO => $this->DTOFactory->createPostDTOFromRequest($request),
-                $argument instanceof UserDTO => $this->DTOFactory->createUserDTOFromRequest($request),
-                default => null
-            };
+            $payload = null;
+
+            foreach ($this->DTOFactories as $factory) {
+                if ($factory->supports($argument)) {
+                    $payload = $factory->create($request);
+                    break;
+                }
+            }
 
             if (! $payload) {
                 continue;

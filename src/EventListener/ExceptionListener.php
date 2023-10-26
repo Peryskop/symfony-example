@@ -12,7 +12,7 @@ final class ExceptionListener
     /** @var ExceptionHandlerInterface[] */
     private array $exceptionsHandlers = [];
 
-    /** @param mixed[] $iterator */
+    /** @param ExceptionHandlerInterface[] $iterator */
     public function __construct(iterable $iterator)
     {
         foreach ($iterator as $item) {

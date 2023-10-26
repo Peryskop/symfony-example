@@ -6,10 +6,10 @@ namespace App\Controller;
 
 use App\Attribute\MapToDTO;
 use App\Checker\UserChecker;
-use App\DTO\Transformer\UserResponseDTOTransformer;
+use App\DTO\Transformer\ResponseDTOTransformerInterface;
 use App\DTO\User\UserDTO;
 use App\Repository\UserRepository;
-use App\Updater\UserUpdater;
+use App\Updater\Entity\CompositeEntityUpdaterInterface;
 use App\Validator\MultiFieldValidator;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -22,9 +22,9 @@ final class UserController extends AbstractApiController
     public function __construct(
         readonly SerializerInterface $serializer,
         private readonly Security $security,
-        private readonly UserResponseDTOTransformer $userResponseDTOTransformer,
+        private readonly ResponseDTOTransformerInterface $responseDTOTransformer,
         private readonly UserRepository $userRepository,
-        private readonly UserUpdater $userUpdater,
+        private readonly CompositeEntityUpdaterInterface $updater,
         private readonly MultiFieldValidator $multiFieldValidator
     ) {
         parent::__construct($serializer);
@@ -36,7 +36,7 @@ final class UserController extends AbstractApiController
         $user = UserChecker::check($this->security->getUser());
 
         return $this->respond(
-            $this->userResponseDTOTransformer->transformFromObject($user),
+            $this->responseDTOTransformer->transformFromObject($user),
             [
                 'user:read',
             ]
@@ -50,11 +50,11 @@ final class UserController extends AbstractApiController
 
         $user = UserChecker::check($this->security->getUser());
 
-        $this->userUpdater->update($user, $userDTO);
+        $this->updater->update($user, $userDTO);
         $this->userRepository->save($user);
 
         return $this->respond(
-            $this->userResponseDTOTransformer->transformFromObject($user),
+            $this->responseDTOTransformer->transformFromObject($user),
             [
                 'user:read',
             ]

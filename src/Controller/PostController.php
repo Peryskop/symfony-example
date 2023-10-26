@@ -6,12 +6,12 @@ namespace App\Controller;
 
 use App\Attribute\MapToDTO;
 use App\DTO\Post\PostDTO;
-use App\DTO\Transformer\PostResponseDTOTransformer;
+use App\DTO\Transformer\ResponseDTOTransformerInterface;
 use App\Entity\Post;
-use App\Factory\PostFactory;
+use App\Factory\Entity\CompositeEntityFactoryInterface;
 use App\Paginator\Paginator;
 use App\Repository\PostRepository;
-use App\Updater\PostUpdater;
+use App\Updater\Entity\CompositeEntityUpdaterInterface;
 use App\Validator\MultiFieldValidator;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +26,9 @@ final class PostController extends AbstractApiController
         private readonly MultiFieldValidator $multiFieldValidator,
         private readonly Paginator $paginator,
         private readonly PostRepository $postRepository,
-        private readonly PostUpdater $postUpdater,
-        private readonly PostFactory $postFactory,
-        private readonly PostResponseDTOTransformer $postResponseDTOTransformer
+        private readonly CompositeEntityUpdaterInterface $updater,
+        private readonly CompositeEntityFactoryInterface $factory,
+        private readonly ResponseDTOTransformerInterface $responseDTOTransformer
     ) {
         parent::__construct($serializer);
     }
@@ -44,7 +44,7 @@ final class PostController extends AbstractApiController
             (int) $request->get('limit', Paginator::PAGINATOR_DEFAULT_LIMIT)
         );
 
-        $dtos = $this->postResponseDTOTransformer->transformFromObjects($paginator);
+        $dtos = $this->responseDTOTransformer->transformFromObjects($paginator);
         $paginatedResponse = $this->paginator->createPaginatedResponse($dtos, $paginator);
 
         return $this->respond(
@@ -56,7 +56,7 @@ final class PostController extends AbstractApiController
     #[Route('posts/{id}', name: 'show', methods: ['GET'])]
     public function show(Post $post): Response
     {
-        $dto = $this->postResponseDTOTransformer->transformFromObject($post);
+        $dto = $this->responseDTOTransformer->transformFromObject($post);
 
         return $this->respond(
             $dto,
@@ -69,11 +69,11 @@ final class PostController extends AbstractApiController
     {
         $this->multiFieldValidator->validate($postDTO, ['default']);
 
-        $post = $this->postFactory->createFromDTO($postDTO);
+        $post = $this->factory->create($postDTO);
 
         $this->postRepository->save($post);
 
-        $dto = $this->postResponseDTOTransformer->transformFromObject($post);
+        $dto = $this->responseDTOTransformer->transformFromObject($post);
 
         return $this->respond(
             $dto,
@@ -87,11 +87,11 @@ final class PostController extends AbstractApiController
     {
         $this->multiFieldValidator->validate($postDTO, ['default']);
 
-        $this->postUpdater->update($post, $postDTO);
+        $this->updater->update($post, $postDTO);
 
         $this->postRepository->flush();
 
-        $dto = $this->postResponseDTOTransformer->transformFromObject($post);
+        $dto = $this->responseDTOTransformer->transformFromObject($post);
 
         return $this->respond(
             $dto,

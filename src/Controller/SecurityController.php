@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Attribute\MapToDTO;
 use App\DTO\User\UserDTO;
 use App\Entity\User;
-use App\Factory\UserFactory;
+use App\Factory\Entity\CompositeEntityFactoryInterface;
 use App\Remover\RefreshTokenRemover;
 use App\Repository\UserRepository;
 use App\Validator\MultiFieldValidator;
@@ -21,7 +21,7 @@ final class SecurityController extends AbstractApiController
     public function __construct(
         readonly SerializerInterface $serializer,
         private readonly UserRepository $userRepository,
-        private readonly UserFactory $userFactory,
+        private readonly CompositeEntityFactoryInterface $factory,
         private readonly MultiFieldValidator $multiFieldValidator,
         private readonly RefreshTokenRemover $refreshTokenRemover,
     ) {
@@ -34,7 +34,7 @@ final class SecurityController extends AbstractApiController
         $this->multiFieldValidator->validate($userDTO, ['registration']);
         $this->multiFieldValidator->validate($userDTO, ['email']);
 
-        $user = $this->userFactory->createFromDTO($userDTO);
+        $user = $this->factory->create($userDTO);
 
         $this->userRepository->save($user);
 

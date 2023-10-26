@@ -26,9 +26,7 @@ final class EmailInUseValidator extends ConstraintValidator
             return;
         }
 
-        if ($this->userRepository->findOneBy([
-            'email' => $value,
-        ])) {
+        if ($this->userRepository->checkIfEmailExists($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

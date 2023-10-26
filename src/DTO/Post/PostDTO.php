@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Post;
 
-final readonly class PostDTO
+use App\DTO\DTOInterface;
+
+final readonly class PostDTO implements DTOInterface
 {
     /** @param mixed[]|null $data */
     public function __construct(?array $data = [])

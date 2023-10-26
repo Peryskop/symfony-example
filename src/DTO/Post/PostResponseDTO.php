@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\DTO\Post;
 
-use App\DTO\User\UserResponseDTO;
+use App\DTO\ResponseDTOInterface;
 use JMS\Serializer\Annotation as Serialization;
 
-final class PostResponseDTO
+final class PostResponseDTO implements ResponseDTOInterface
 {
     #[Serialization\Groups(['post:read'])]
     public int $id;
@@ -22,5 +22,5 @@ final class PostResponseDTO
     public string $updatedAt;
 
     #[Serialization\Groups(['post:read'])]
-    public UserResponseDTO $user;
+    public ResponseDTOInterface $user;
 }

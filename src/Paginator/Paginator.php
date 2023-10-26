@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Paginator;
 
-use App\DTO\PaginatedCollection;
 use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;

@@ -7,9 +7,11 @@ namespace App\Entity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements PasswordAuthenticatedUserInterface, UserInterface
+class User implements PasswordAuthenticatedUserInterface, UserInterface, EntityInterface
 {
     public const USER = 'ROLE_USER';
+
+    public const ADMIN = 'ROLE_ADMIN';
 
     private int $id;
 
@@ -89,5 +91,12 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    public function addAdminRole(): void
+    {
+        if (! in_array(self::ADMIN, $this->roles)) {
+            $this->roles[] = self::ADMIN;
+        }
     }
 }
