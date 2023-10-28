@@ -1,0 +1,12 @@
+{
+  "id": "@integer@",
+  "content": "Hello world",
+  "createdAt": "@string@",
+  "updatedAt": "@string@",
+  "user": {
+    "id": "@integer@",
+    "email": "existing.user@email.com",
+    "firstName": "John",
+    "lastName": "Doe"
+  }
+}

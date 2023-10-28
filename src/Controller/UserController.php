@@ -8,9 +8,9 @@ use App\Attribute\MapToDTO;
 use App\Checker\UserChecker;
 use App\DTO\Transformer\ResponseDTOTransformerInterface;
 use App\DTO\User\UserDTO;
-use App\Repository\UserRepository;
+use App\Repository\UserRepositoryInterface;
 use App\Updater\Entity\CompositeEntityUpdaterInterface;
-use App\Validator\MultiFieldValidator;
+use App\Validator\MultiFieldValidatorInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,9 +23,9 @@ final class UserController extends AbstractApiController
         readonly SerializerInterface $serializer,
         private readonly Security $security,
         private readonly ResponseDTOTransformerInterface $responseDTOTransformer,
-        private readonly UserRepository $userRepository,
+        private readonly UserRepositoryInterface $userRepository,
         private readonly CompositeEntityUpdaterInterface $updater,
-        private readonly MultiFieldValidator $multiFieldValidator
+        private readonly MultiFieldValidatorInterface $multiFieldValidator
     ) {
         parent::__construct($serializer);
     }

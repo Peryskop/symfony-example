@@ -8,6 +8,7 @@ use App\DTO\Post\PostResponseDTO;
 use App\DTO\ResponseDTOInterface;
 use App\Entity\EntityInterface;
 use App\Entity\Post;
+use App\Entity\PostInterface;
 
 final readonly class PostResponseDTOFactory implements ResponseDTOFactoryInterface
 {
@@ -16,7 +17,7 @@ final readonly class PostResponseDTOFactory implements ResponseDTOFactoryInterfa
     ) {
     }
 
-    /** @param Post $entity */
+    /** @param PostInterface $entity */
     public function create(EntityInterface $entity): ResponseDTOInterface
     {
         $dto = new PostResponseDTO();

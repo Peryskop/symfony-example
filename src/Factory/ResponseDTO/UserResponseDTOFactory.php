@@ -6,12 +6,13 @@ namespace App\Factory\ResponseDTO;
 
 use App\DTO\ResponseDTOInterface;
 use App\DTO\User\UserResponseDTO;
+use App\Entity\AppUserInterface;
 use App\Entity\EntityInterface;
 use App\Entity\User;
 
 final class UserResponseDTOFactory implements ResponseDTOFactoryInterface
 {
-    /** @param User $entity */
+    /** @param AppUserInterface $entity */
     public function create(EntityInterface $entity): ResponseDTOInterface
     {
         $dto = new UserResponseDTO();

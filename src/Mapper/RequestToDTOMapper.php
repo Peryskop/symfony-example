@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
+use App\DTO\DTOInterface;
 use App\Factory\DTO\DTOFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
@@ -35,6 +36,10 @@ final class RequestToDTOMapper implements EventSubscriberInterface
         $request = $event->getRequest();
 
         foreach ($arguments as $i => $argument) {
+            if (! $argument instanceof DTOInterface) {
+                continue;
+            }
+
             $payload = null;
 
             foreach ($this->DTOFactories as $factory) {

@@ -9,7 +9,7 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Response;
 
-final class Paginator
+final class Paginator implements PaginatorInterface
 {
     public const PAGINATOR_DEFAULT_PAGE = 1;
 

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Trait\TimestampableTrait;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements PasswordAuthenticatedUserInterface, UserInterface, EntityInterface
+class User implements PasswordAuthenticatedUserInterface, UserInterface, AppUserInterface
 {
+    use TimestampableTrait;
+
     public const USER = 'ROLE_USER';
 
     public const ADMIN = 'ROLE_ADMIN';

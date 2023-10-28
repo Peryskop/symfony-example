@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Post;
 
-use App\DTO\DTOInterface;
-
-final readonly class PostDTO implements DTOInterface
+final readonly class PostDTO implements PostDTOInterface
 {
     /** @param mixed[]|null $data */
     public function __construct(?array $data = [])
@@ -14,5 +12,10 @@ final readonly class PostDTO implements DTOInterface
         $this->description = $data['description'] ?? null;
     }
 
-    public ?string $description;
+    private ?string $description;
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
 }

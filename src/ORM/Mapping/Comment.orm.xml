@@ -1,0 +1,33 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                   https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+    <entity name="App\Entity\Comment" table="comment" repository-class="App\Repository\CommentRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="content" type="text"/>
+
+        <field name="createdAt" type="datetime_immutable"/>
+
+        <field name="updatedAt" type="datetime_immutable"/>
+
+        <many-to-one field="user" target-entity="App\Entity\User">
+            <join-column nullable="false"/>
+        </many-to-one>
+
+        <many-to-one field="post" target-entity="App\Entity\Post">
+            <join-column nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one field="comment" target-entity="App\Entity\Comment">
+            <join-column on-delete="CASCADE"/>
+        </many-to-one>
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="updateTimestamps"/>
+            <lifecycle-callback type="preUpdate" method="updateTimestamps"/>
+        </lifecycle-callbacks>
+    </entity>
+</doctrine-mapping>

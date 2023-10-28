@@ -17,7 +17,7 @@ final class DeleteTest extends JsonApiTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixturesFromFiles(['post.yaml', 'user.yaml']);
+        $this->loadFixturesFromFiles(['post.yaml', 'user.yaml', 'comment.yaml']);
         $this->postRepository = static::getContainer()->get(PostRepository::class);
         $this->userRepository = static::getContainer()->get(UserRepository::class);
         $this->client->loginUser($this->userRepository->findOneBy(['email' => 'existing.user@email.com']));

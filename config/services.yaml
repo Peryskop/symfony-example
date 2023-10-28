@@ -55,3 +55,6 @@ services:
     App\Factory\ResponseDTO\PostResponseDTOFactory:
         arguments:
             $userResponseDTOFactory: '@App\Factory\ResponseDTO\UserResponseDTOFactory'
+    App\Factory\ResponseDTO\CommentResponseDTOFactory:
+        arguments:
+            $userResponseDTOFactory: '@App\Factory\ResponseDTO\UserResponseDTOFactory'

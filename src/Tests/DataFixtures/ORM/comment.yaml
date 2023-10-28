@@ -1,0 +1,9 @@
+App\Entity\Comment:
+  comment1:
+    content: test content 1
+    user: "@user1"
+    post: "@post1"
+  comment2:
+    content: test content 2
+    user: "@user1"
+    post: "@post2"

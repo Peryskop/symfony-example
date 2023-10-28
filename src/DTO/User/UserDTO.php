@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\User;
 
-use App\DTO\DTOInterface;
 use App\Trimmer\Trimmer;
 
-final readonly class UserDTO implements DTOInterface
+final readonly class UserDTO implements UserDTOInterface
 {
     /** @param mixed[]|null $data */
     public function __construct(?array $data = [])
@@ -18,11 +17,31 @@ final readonly class UserDTO implements DTOInterface
         $this->lastName = Trimmer::trim($data['lastName'] ?? null);
     }
 
-    public ?string $email;
+    private ?string $email;
 
-    public ?string $password;
+    private ?string $password;
 
-    public ?string $firstName;
+    private ?string $firstName;
 
-    public ?string $lastName;
+    private ?string $lastName;
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
 }

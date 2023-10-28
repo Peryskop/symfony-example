@@ -11,5 +11,5 @@ interface DTOFactoryInterface
 {
     public function create(Request $request): DTOInterface;
 
-    public function supports(mixed $DTO): bool;
+    public function supports(DTOInterface $DTO): bool;
 }

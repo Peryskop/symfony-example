@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Remover;
 
 use App\Entity\RefreshToken;
-use App\Repository\RefreshTokenRepository;
+use App\Repository\RefreshTokenRepositoryInterface;
 
-final class RefreshTokenRemover
+final readonly class RefreshTokenRemover implements RefreshTokenRemoverInterface
 {
     public function __construct(
-        private readonly RefreshTokenRepository $refreshTokenRepository
+        private RefreshTokenRepositoryInterface $refreshTokenRepository
     ) {
     }
 

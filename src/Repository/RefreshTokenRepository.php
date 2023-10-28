@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenInterface;
 
-final class RefreshTokenRepository extends ServiceEntityRepository
+final class RefreshTokenRepository extends ServiceEntityRepository implements RefreshTokenRepositoryInterface
 {
     public function __construct(readonly ManagerRegistry $registry)
     {

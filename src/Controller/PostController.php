@@ -10,9 +10,10 @@ use App\DTO\Transformer\ResponseDTOTransformerInterface;
 use App\Entity\Post;
 use App\Factory\Entity\CompositeEntityFactoryInterface;
 use App\Paginator\Paginator;
-use App\Repository\PostRepository;
+use App\Paginator\PaginatorInterface;
+use App\Repository\PostRepositoryInterface;
 use App\Updater\Entity\CompositeEntityUpdaterInterface;
-use App\Validator\MultiFieldValidator;
+use App\Validator\MultiFieldValidatorInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,9 +24,9 @@ final class PostController extends AbstractApiController
 {
     public function __construct(
         readonly SerializerInterface $serializer,
-        private readonly MultiFieldValidator $multiFieldValidator,
-        private readonly Paginator $paginator,
-        private readonly PostRepository $postRepository,
+        private readonly MultiFieldValidatorInterface $multiFieldValidator,
+        private readonly PaginatorInterface $paginator,
+        private readonly PostRepositoryInterface $postRepository,
         private readonly CompositeEntityUpdaterInterface $updater,
         private readonly CompositeEntityFactoryInterface $factory,
         private readonly ResponseDTOTransformerInterface $responseDTOTransformer

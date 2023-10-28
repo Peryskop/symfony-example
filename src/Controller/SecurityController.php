@@ -8,9 +8,9 @@ use App\Attribute\MapToDTO;
 use App\DTO\User\UserDTO;
 use App\Entity\User;
 use App\Factory\Entity\CompositeEntityFactoryInterface;
-use App\Remover\RefreshTokenRemover;
-use App\Repository\UserRepository;
-use App\Validator\MultiFieldValidator;
+use App\Remover\RefreshTokenRemoverInterface;
+use App\Repository\UserRepositoryInterface;
+use App\Validator\MultiFieldValidatorInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,10 +20,10 @@ final class SecurityController extends AbstractApiController
 {
     public function __construct(
         readonly SerializerInterface $serializer,
-        private readonly UserRepository $userRepository,
+        private readonly UserRepositoryInterface $userRepository,
         private readonly CompositeEntityFactoryInterface $factory,
-        private readonly MultiFieldValidator $multiFieldValidator,
-        private readonly RefreshTokenRemover $refreshTokenRemover,
+        private readonly MultiFieldValidatorInterface $multiFieldValidator,
+        private readonly RefreshTokenRemoverInterface $refreshTokenRemover,
     ) {
         parent::__construct($serializer);
     }

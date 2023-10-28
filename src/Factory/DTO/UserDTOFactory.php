@@ -16,8 +16,8 @@ final class UserDTOFactory implements DTOFactoryInterface
         return new UserDTO($data);
     }
 
-    public function supports(mixed $DTO): bool
+    public function supports(DTOInterface $DTO): bool
     {
-        return $DTO instanceof UserDTO;
+        return $DTO::class === UserDTO::class;
     }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserChecker
 {
-    public static function check(UserInterface $user): User
+    public static function check(?UserInterface $user): User
     {
         if (! $user instanceof User) {
             throw new \Exception('Invalid user exception');

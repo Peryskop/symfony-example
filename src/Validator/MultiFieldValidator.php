@@ -7,16 +7,13 @@ namespace App\Validator;
 use App\Exception\ValidationException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final readonly class MultiFieldValidator
+final readonly class MultiFieldValidator implements MultiFieldValidatorInterface
 {
     public function __construct(
         private ValidatorInterface $validator
     ) {
     }
 
-    /**
-     * @param string[] $groups
-     */
     public function validate(mixed $value, array $groups): void
     {
         $violations = $this->validator->validate($value, null, $groups);

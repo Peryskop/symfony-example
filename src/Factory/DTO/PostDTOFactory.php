@@ -16,8 +16,8 @@ final class PostDTOFactory implements DTOFactoryInterface
         return new PostDTO($data);
     }
 
-    public function supports(mixed $DTO): bool
+    public function supports(DTOInterface $DTO): bool
     {
-        return $DTO instanceof PostDTO;
+        return $DTO::class === PostDTO::class;
     }
 }
