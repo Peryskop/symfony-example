@@ -4,4 +4,4 @@ App\Entity\Post:
     user: "@user1"
   post2:
     description: test description 2
-    user: "@user1"
+    user: "@user2"

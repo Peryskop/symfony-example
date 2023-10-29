@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\EntityInterface;
-use App\Entity\User;
+use App\Entity\AppUserInterface;
 
 interface UserRepositoryInterface
 {
-    public function save(EntityInterface $user): void;
+    public function save(AppUserInterface $user): void;
 
     public function flush(): void;
-
-    public function delete(User $user): void;
 
     public function checkIfEmailExists(string $email): bool;
 }

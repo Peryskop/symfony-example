@@ -12,7 +12,7 @@ final class UserChecker
     public static function check(?UserInterface $user): User
     {
         if (! $user instanceof User) {
-            throw new \Exception('Invalid user exception');
+            throw new \Exception('Invalid user exception', 500);
         }
 
         return $user;

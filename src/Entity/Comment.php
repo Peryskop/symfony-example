@@ -10,6 +10,18 @@ class Comment implements CommentInterface
 {
     use TimestampableTrait;
 
+    public const OWNER = 0;
+
+    public const ADMIN = 1;
+
+    public const POST_OWNER = 2;
+
+    private const DELETED_BY_MESSAGE = [
+        self::OWNER => 'This comment has been deleted.',
+        self::ADMIN => 'This comment has been deleted by the administrator.',
+        self::POST_OWNER => 'This comment has been deleted by the author of the post.',
+    ];
+
     private int $id;
 
     private string $content;
@@ -20,6 +32,8 @@ class Comment implements CommentInterface
 
     private ?Comment $comment = null;
 
+    private ?int $deletedBy = null;
+
     public function getId(): int
     {
         return $this->id;
@@ -27,6 +41,10 @@ class Comment implements CommentInterface
 
     public function getContent(): string
     {
+        if ($this->deletedBy !== null) {
+            return self::DELETED_BY_MESSAGE[$this->deletedBy];
+        }
+
         return $this->content;
     }
 
@@ -63,5 +81,20 @@ class Comment implements CommentInterface
     public function setComment(?Comment $comment): void
     {
         $this->comment = $comment;
+    }
+
+    public function isOwner(AppUserInterface $user): bool
+    {
+        return $this->user === $user;
+    }
+
+    public function softDelete(AppUserInterface $user): void
+    {
+        $this->deletedBy = match (true) {
+            $this->isOwner($user) => self::OWNER,
+            $user->isAdmin() => self::ADMIN,
+            $this->post->isOwner($user) => self::POST_OWNER,
+            default => throw new \Exception('Comment soft delete exception', 500)
+        };
     }
 }

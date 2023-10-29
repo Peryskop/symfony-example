@@ -28,6 +28,6 @@ final class CompositeEntityFactory implements CompositeEntityFactoryInterface
             }
         }
 
-        throw new \Exception(sprintf('Factory to create entity from %s not implemented', $DTO::class));
+        throw new \Exception(sprintf('Factory to create entity from %s not implemented', $DTO::class), 500);
     }
 }

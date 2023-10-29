@@ -10,11 +10,22 @@ class Post implements PostInterface
 {
     use TimestampableTrait;
 
+    public const OWNER = 0;
+
+    public const ADMIN = 1;
+
+    private const DELETED_BY_MESSAGE = [
+        self::OWNER => 'This post has been deleted.',
+        self::ADMIN => 'This post has been deleted by the administrator.',
+    ];
+
     private int $id;
 
     private string $description;
 
     private User $user;
+
+    private ?int $deletedBy = null;
 
     public function getId(): int
     {
@@ -23,6 +34,10 @@ class Post implements PostInterface
 
     public function getDescription(): string
     {
+        if ($this->deletedBy !== null) {
+            return self::DELETED_BY_MESSAGE[$this->deletedBy];
+        }
+
         return $this->description;
     }
 
@@ -39,5 +54,19 @@ class Post implements PostInterface
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function isOwner(AppUserInterface $user): bool
+    {
+        return $this->user === $user;
+    }
+
+    public function softDelete(AppUserInterface $user): void
+    {
+        $this->deletedBy = match (true) {
+            $this->isOwner($user) => self::OWNER,
+            $user->isAdmin() => self::ADMIN,
+            default => throw new \Exception('Post soft delete exception', 500)
+        };
     }
 }

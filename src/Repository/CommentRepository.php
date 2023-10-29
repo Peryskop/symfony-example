@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Comment;
-use App\Entity\EntityInterface;
+use App\Entity\CommentInterface;
 use App\Entity\PostInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -20,7 +20,7 @@ final class CommentRepository extends ServiceEntityRepository implements Comment
         parent::__construct($registry, Comment::class);
     }
 
-    public function save(EntityInterface $comment): void
+    public function save(CommentInterface $comment): void
     {
         $this->_em->persist($comment);
         $this->flush();
@@ -31,7 +31,7 @@ final class CommentRepository extends ServiceEntityRepository implements Comment
         $this->_em->flush();
     }
 
-    public function delete(Comment $comment): void
+    public function delete(CommentInterface $comment): void
     {
         $this->_em->remove($comment);
         $this->flush();

@@ -30,4 +30,6 @@ interface AppUserInterface extends EntityInterface
     public function setLastName(string $lastName): void;
 
     public function addAdminRole(): void;
+
+    public function isAdmin(): bool;
 }

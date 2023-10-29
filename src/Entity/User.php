@@ -98,8 +98,13 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface, AppUser
 
     public function addAdminRole(): void
     {
-        if (! in_array(self::ADMIN, $this->roles)) {
+        if (! $this->isAdmin()) {
             $this->roles[] = self::ADMIN;
         }
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array(self::ADMIN, $this->roles);
     }
 }

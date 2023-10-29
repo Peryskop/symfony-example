@@ -29,4 +29,6 @@ interface CommentInterface extends EntityInterface
     public function getUpdatedAt(): \DateTimeImmutable;
 
     public function updateTimestamps(): void;
+
+    public function isOwner(AppUserInterface $user): bool;
 }

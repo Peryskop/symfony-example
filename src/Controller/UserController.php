@@ -37,9 +37,7 @@ final class UserController extends AbstractApiController
 
         return $this->respond(
             $this->responseDTOTransformer->transformFromObject($user),
-            [
-                'user:read',
-            ]
+            ['user:read']
         );
     }
 
@@ -55,9 +53,7 @@ final class UserController extends AbstractApiController
 
         return $this->respond(
             $this->responseDTOTransformer->transformFromObject($user),
-            [
-                'user:read',
-            ]
+            ['user:read']
         );
     }
 }

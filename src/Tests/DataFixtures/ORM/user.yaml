@@ -7,3 +7,15 @@ App\Entity\User:
         password: <{hash}>
         firstName: John
         lastName: Doe
+    user2:
+        email: eddard.start@email.com
+        password: <{hash}>
+        firstName: Eddard
+        lastName: Start
+    admin:
+        email: admin@email.com
+        password: <{hash}>
+        firstName: Admin
+        lastName: Admin
+        __calls:
+            - addAdminRole: [ ]

@@ -13,6 +13,8 @@
 
         <field name="updatedAt" type="datetime_immutable"/>
 
+        <field name="deletedBy" type="integer" nullable="true"/>
+
         <many-to-one field="user" target-entity="App\Entity\User">
             <join-column nullable="false"/>
         </many-to-one>

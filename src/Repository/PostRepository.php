@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\EntityInterface;
 use App\Entity\Post;
+use App\Entity\PostInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +19,7 @@ final class PostRepository extends ServiceEntityRepository implements PostReposi
         parent::__construct($registry, Post::class);
     }
 
-    public function save(EntityInterface $post): void
+    public function save(PostInterface $post): void
     {
         $this->_em->persist($post);
         $this->flush();
@@ -30,7 +30,7 @@ final class PostRepository extends ServiceEntityRepository implements PostReposi
         $this->_em->flush();
     }
 
-    public function delete(Post $post): void
+    public function delete(PostInterface $post): void
     {
         $this->_em->remove($post);
         $this->flush();

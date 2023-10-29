@@ -8,12 +8,15 @@ use App\Attribute\MapToDTO;
 use App\DTO\Post\PostDTO;
 use App\DTO\Transformer\ResponseDTOTransformerInterface;
 use App\Entity\Post;
+use App\Entity\PostInterface;
 use App\Factory\Entity\CompositeEntityFactoryInterface;
 use App\Paginator\Paginator;
 use App\Paginator\PaginatorInterface;
+use App\Remover\Entity\CompositeEntityRemoverInterface;
 use App\Repository\PostRepositoryInterface;
 use App\Updater\Entity\CompositeEntityUpdaterInterface;
 use App\Validator\MultiFieldValidatorInterface;
+use App\Voter\PostVoter;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +32,8 @@ final class PostController extends AbstractApiController
         private readonly PostRepositoryInterface $postRepository,
         private readonly CompositeEntityUpdaterInterface $updater,
         private readonly CompositeEntityFactoryInterface $factory,
-        private readonly ResponseDTOTransformerInterface $responseDTOTransformer
+        private readonly ResponseDTOTransformerInterface $responseDTOTransformer,
+        private readonly CompositeEntityRemoverInterface $remover
     ) {
         parent::__construct($serializer);
     }
@@ -46,10 +50,9 @@ final class PostController extends AbstractApiController
         );
 
         $dtos = $this->responseDTOTransformer->transformFromObjects($paginator);
-        $paginatedResponse = $this->paginator->createPaginatedResponse($dtos, $paginator);
 
         return $this->respond(
-            $paginatedResponse,
+            $this->paginator->createPaginatedResponse($dtos, $paginator),
             ['post:read', 'user:read']
         );
     }
@@ -57,10 +60,8 @@ final class PostController extends AbstractApiController
     #[Route('posts/{id}', name: 'show', methods: ['GET'])]
     public function show(Post $post): Response
     {
-        $dto = $this->responseDTOTransformer->transformFromObject($post);
-
         return $this->respond(
-            $dto,
+            $this->responseDTOTransformer->transformFromObject($post),
             ['post:read', 'user:read']
         );
     }
@@ -70,14 +71,13 @@ final class PostController extends AbstractApiController
     {
         $this->multiFieldValidator->validate($postDTO, ['default']);
 
+        /** @var PostInterface $post */
         $post = $this->factory->create($postDTO);
 
         $this->postRepository->save($post);
 
-        $dto = $this->responseDTOTransformer->transformFromObject($post);
-
         return $this->respond(
-            $dto,
+            $this->responseDTOTransformer->transformFromObject($post),
             ['post:read', 'user:read'],
             Response::HTTP_CREATED
         );
@@ -86,16 +86,16 @@ final class PostController extends AbstractApiController
     #[Route('posts/{id}', name: 'update', methods: ['PUT'])]
     public function update(#[MapToDTO] PostDTO $postDTO, Post $post): Response
     {
+        $this->denyAccessUnlessGranted(PostVoter::EDIT, $post);
+
         $this->multiFieldValidator->validate($postDTO, ['default']);
 
         $this->updater->update($post, $postDTO);
 
         $this->postRepository->flush();
 
-        $dto = $this->responseDTOTransformer->transformFromObject($post);
-
         return $this->respond(
-            $dto,
+            $this->responseDTOTransformer->transformFromObject($post),
             ['post:read', 'user:read']
         );
     }
@@ -103,7 +103,17 @@ final class PostController extends AbstractApiController
     #[Route('posts/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(Post $post): Response
     {
-        $this->postRepository->delete($post);
+        $this->denyAccessUnlessGranted(PostVoter::DELETE, $post);
+
+        $this->remover->softDelete($post);
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('admin/posts/{id}', name: 'delete_admin', methods: ['DELETE'])]
+    public function deleteAdmin(Post $post): Response
+    {
+        $this->remover->softDelete($post);
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }

@@ -21,4 +21,8 @@ interface PostInterface extends EntityInterface
     public function getUpdatedAt(): \DateTimeImmutable;
 
     public function updateTimestamps(): void;
+
+    public function isOwner(AppUserInterface $user): bool;
+
+    public function softDelete(AppUserInterface $user): void;
 }

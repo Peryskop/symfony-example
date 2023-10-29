@@ -28,6 +28,6 @@ final class ResponseDTOTransformer extends AbstractResponseDTOTransformer
             }
         }
 
-        throw new \Exception(sprintf('Response DTO factory for %s not implemented', $object::class));
+        throw new \Exception(sprintf('Response DTO factory for %s not implemented', $object::class), 500);
     }
 }

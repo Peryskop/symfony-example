@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Attribute\MapToDTO;
 use App\DTO\User\UserDTO;
-use App\Entity\User;
+use App\Entity\AppUserInterface;
 use App\Factory\Entity\CompositeEntityFactoryInterface;
 use App\Remover\RefreshTokenRemoverInterface;
 use App\Repository\UserRepositoryInterface;
@@ -34,6 +34,7 @@ final class SecurityController extends AbstractApiController
         $this->multiFieldValidator->validate($userDTO, ['registration']);
         $this->multiFieldValidator->validate($userDTO, ['email']);
 
+        /** @var AppUserInterface $user */
         $user = $this->factory->create($userDTO);
 
         $this->userRepository->save($user);
@@ -50,7 +51,6 @@ final class SecurityController extends AbstractApiController
     #[Route('logout', name: 'logout', methods: ['GET'])]
     public function logout(): Response
     {
-        /** @var User $user */
         $user = $this->getUser();
 
         $this->refreshTokenRemover->removeAllUserTokens($user->getUserIdentifier());

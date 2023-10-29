@@ -29,6 +29,6 @@ final class CompositeEntityUpdater implements CompositeEntityUpdaterInterface
             }
         }
 
-        throw new \Exception(sprintf('Updater for %s not implemented', $entity::class));
+        throw new \Exception(sprintf('Updater for %s not implemented', $entity::class), 500);
     }
 }

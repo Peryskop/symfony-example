@@ -8,13 +8,16 @@ use App\Attribute\MapToDTO;
 use App\DTO\Comment\CommentDTO;
 use App\DTO\Transformer\ResponseDTOTransformerInterface;
 use App\Entity\Comment;
+use App\Entity\CommentInterface;
 use App\Entity\Post;
 use App\Factory\Entity\CompositeEntityFactoryInterface;
 use App\Paginator\Paginator;
 use App\Paginator\PaginatorInterface;
+use App\Remover\Entity\CompositeEntityRemoverInterface;
 use App\Repository\CommentRepositoryInterface;
 use App\Updater\Entity\CompositeEntityUpdaterInterface;
 use App\Validator\MultiFieldValidatorInterface;
+use App\Voter\CommentVoter;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +33,8 @@ final class CommentController extends AbstractApiController
         private readonly CommentRepositoryInterface $commentRepository,
         private readonly CompositeEntityUpdaterInterface $updater,
         private readonly CompositeEntityFactoryInterface $factory,
-        private readonly ResponseDTOTransformerInterface $responseDTOTransformer
+        private readonly ResponseDTOTransformerInterface $responseDTOTransformer,
+        private readonly CompositeEntityRemoverInterface $remover
     ) {
         parent::__construct($serializer);
     }
@@ -47,10 +51,9 @@ final class CommentController extends AbstractApiController
         );
 
         $dtos = $this->responseDTOTransformer->transformFromObjects($paginator);
-        $paginatedResponse = $this->paginator->createPaginatedResponse($dtos, $paginator);
 
         return $this->respond(
-            $paginatedResponse,
+            $this->paginator->createPaginatedResponse($dtos, $paginator),
             ['comment:read', 'user:read']
         );
     }
@@ -60,14 +63,13 @@ final class CommentController extends AbstractApiController
     {
         $this->multiFieldValidator->validate($commentDTO, ['default']);
 
+        /** @var CommentInterface $comment */
         $comment = $this->factory->create($commentDTO);
 
         $this->commentRepository->save($comment);
 
-        $dto = $this->responseDTOTransformer->transformFromObject($comment);
-
         return $this->respond(
-            $dto,
+            $this->responseDTOTransformer->transformFromObject($comment),
             ['comment:read', 'user:read'],
             Response::HTTP_CREATED
         );
@@ -76,16 +78,16 @@ final class CommentController extends AbstractApiController
     #[Route('posts/{post}/comments/{comment}', name: 'update', methods: ['PUT'])]
     public function update(#[MapToDTO] CommentDTO $commentDTO, Comment $comment): Response
     {
+        $this->denyAccessUnlessGranted(CommentVoter::EDIT, $comment);
+
         $this->multiFieldValidator->validate($commentDTO, ['default']);
 
         $this->updater->update($comment, $commentDTO);
 
         $this->commentRepository->flush();
 
-        $dto = $this->responseDTOTransformer->transformFromObject($comment);
-
         return $this->respond(
-            $dto,
+            $this->responseDTOTransformer->transformFromObject($comment),
             ['comment:read', 'user:read']
         );
     }
@@ -93,7 +95,17 @@ final class CommentController extends AbstractApiController
     #[Route('posts/{post}/comments/{comment}', name: 'delete', methods: ['DELETE'])]
     public function delete(Comment $comment): Response
     {
-        $this->commentRepository->delete($comment);
+        $this->denyAccessUnlessGranted(CommentVoter::DELETE, $comment);
+
+        $this->remover->softDelete($comment);
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('admin/posts/{post}/comments/{comment}', name: 'delete_admin', methods: ['DELETE'])]
+    public function deleteAdmin(Comment $comment): Response
+    {
+        $this->remover->softDelete($comment);
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
