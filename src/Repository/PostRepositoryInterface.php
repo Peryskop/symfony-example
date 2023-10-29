@@ -7,8 +7,9 @@ namespace App\Repository;
 use App\Entity\Post;
 use App\Entity\PostInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ObjectRepository;
 
-interface PostRepositoryInterface
+interface PostRepositoryInterface extends ObjectRepository
 {
     public function save(PostInterface $post): void;
 

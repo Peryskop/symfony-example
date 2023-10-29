@@ -8,8 +8,9 @@ use App\Entity\Comment;
 use App\Entity\CommentInterface;
 use App\Entity\PostInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ObjectRepository;
 
-interface CommentRepositoryInterface
+interface CommentRepositoryInterface extends ObjectRepository
 {
     public function save(CommentInterface $comment): void;
 

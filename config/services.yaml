@@ -63,3 +63,6 @@ services:
     App\Factory\ResponseDTO\CommentResponseDTOFactory:
         arguments:
             $userResponseDTOFactory: '@App\Factory\ResponseDTO\UserResponseDTOFactory'
+    App\Command\CreateAdminCommand:
+        arguments:
+            $userFactory: '@App\Factory\Entity\UserFactory'

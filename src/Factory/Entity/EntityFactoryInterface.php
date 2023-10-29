@@ -9,9 +9,6 @@ use App\Entity\EntityInterface;
 
 interface EntityFactoryInterface
 {
-    /**
-     * @param DTOInterface $DTO
-     */
     public function create(DTOInterface $DTO): EntityInterface;
 
     public function supports(DTOInterface $DTO): bool;

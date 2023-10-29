@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AppUserInterface;
+use Doctrine\Persistence\ObjectRepository;
 
-interface UserRepositoryInterface
+interface UserRepositoryInterface extends ObjectRepository
 {
     public function save(AppUserInterface $user): void;
 
